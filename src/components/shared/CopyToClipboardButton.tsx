@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Clipboard, Check } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useToast } from '@/hooks/use-toast';
 
 interface CopyToClipboardButtonProps {
   textToCopy: string;
@@ -11,11 +12,21 @@ interface CopyToClipboardButtonProps {
 
 export function CopyToClipboardButton({ textToCopy }: CopyToClipboardButtonProps) {
   const [copied, setCopied] = useState(false);
+  const { toast } = useToast();
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(textToCopy);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(textToCopy);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      toast({
+        title: 'Copy Failed',
+        description: 'Could not copy text to clipboard.',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
