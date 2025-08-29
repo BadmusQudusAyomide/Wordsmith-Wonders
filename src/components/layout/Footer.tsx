@@ -35,6 +35,7 @@ export function Footer() {
         </div>
         <div className="mt-8 border-t border-border pt-6 text-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Wordsmith Wonders. All rights reserved.</p>
+          <p className="mt-2 text-xs opacity-75">Built with ❤️ by <span className="font-medium">Badmus Qudus Ayomide</span></p>
         </div>
       </div>
     </footer>
