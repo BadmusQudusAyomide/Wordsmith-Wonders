@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, Suspense } from 'react';
 import { allContent } from '@/lib/content';
 import { categories } from '@/lib/categories';
 import { SearchBar } from '@/components/shared/SearchBar';
@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const allTags = [...new Set(allContent.flatMap(c => c.tags))];
 
-export default function SearchPage() {
+function SearchContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
   
@@ -108,5 +108,17 @@ export default function SearchPage() {
         </main>
       </div>
     </div>
+  );
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="animate-pulse text-muted-foreground">Loading search...</div>
+      </div>
+    }>
+      <SearchContent />
+    </Suspense>
   );
 }
