@@ -4,6 +4,9 @@ import { getContentByCategory } from '@/lib/content';
 import { QuoteList } from '@/components/shared/QuoteList';
 import { Breadcrumbs } from '@/components/shared/Breadcrumbs';
 
+
+
+
 export async function generateStaticParams() {
   const { categories } = await import('@/lib/categories');
   return categories.map((category) => ({ slug: category.slug }));
